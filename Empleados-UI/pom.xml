@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>edu.umg.programacion2</groupId>
+  <artifactId>Empleados-UI</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Empleados-UI</name>
+  <description>Vista e interfaz gráficada integrada para motor de gestor de empleados</description>
+  <dependencies>
+  	<dependency>
+  	 <groupId>edu.umg.programacion2</groupId>
+	  <artifactId>Empleados-core</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+</project>
