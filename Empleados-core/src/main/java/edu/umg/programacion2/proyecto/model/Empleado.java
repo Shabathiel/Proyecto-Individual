@@ -24,13 +24,13 @@ public class Empleado {
 	
 	
 
-	public Empleado(String nombre, String departamento, int salario, LocalDate fecha_ingreso, boolean activo) {
+	public Empleado(String nombre, String departamento, int salario, LocalDate fecha_ingreso) {
 		this.id = 0;
 		this.nombre = nombre;
 		this.departamento = departamento;
 		this.salario = salario;
 		this.fecha_ingreso = fecha_ingreso;
-		this.activo = activo;
+		this.activo = true;
 	}
 
 
@@ -109,8 +109,9 @@ public class Empleado {
 
 	@Override
 	public String toString() {
-		return "Empleado [id=" + id + ", nombre=" + nombre + ", departamento=" + departamento + ", salario=" + salario
-				+ ", fecha_ingreso=" + fecha_ingreso + ", activo=" + activo + "]";
+		return "|" + id + "| " + nombre + " - " + departamento 
+				+ " - Q" + salario/100 + " - " + fecha_ingreso 
+				+ " - " + ((activo) ? "Activo":"Inactivo");
 	}
 	
 	

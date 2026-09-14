@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS empleados(
     departamento VARCHAR(30) NOT NULL,
     salario INT NOT NULL,
     fecha_ingreso DATE NOT NULL,
-    activo BOOL DEFAULT TRUE
+    activo BOOL DEFAULT TRUE,
+    CONSTRAINT CHK_salario_rule CHECK(salario > 0)
 );
 
 INSERT IGNORE INTO empleados (nombre, departamento, salario, fecha_ingreso, activo) VALUES
