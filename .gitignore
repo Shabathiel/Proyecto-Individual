@@ -5,3 +5,5 @@
 **/target/
 
 .metadata/
+
+**/db.properties
