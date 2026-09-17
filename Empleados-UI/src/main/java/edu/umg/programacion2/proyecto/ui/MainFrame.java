@@ -53,7 +53,7 @@ public class MainFrame extends JFrame{
 		
 		layout.show(container,"Inicio");
 		
-		add(container, BorderLayout.EAST);
+		add(container, BorderLayout.CENTER);
 	}
 	
 	public void showPanel(String name) {
