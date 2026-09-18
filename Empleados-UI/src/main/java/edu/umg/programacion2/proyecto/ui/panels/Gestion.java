@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -150,6 +151,8 @@ public class Gestion extends JPanel{
 		
 		// Aquí están las funciones para cada boton
 		bttCreate.addActionListener(e -> { Guardar();});
+		bttRead.addActionListener(e -> {Leer();});
+		bttDelete.addActionListener(e -> {Borrar();});
 		
 		add(panelBotones,BorderLayout.SOUTH);
 	}
@@ -188,6 +191,65 @@ public class Gestion extends JPanel{
 		}
 		
 		
+	}
+	
+	public void Leer() {
+		if ( txtId.getText().isBlank() || ! txtId.getText().matches("-?\\d+(\\.\\d+)?")) {
+			JOptionPane.showMessageDialog(this, "Necesita llenar el campo ID con un valor numérico valido.","Advertencia",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		int id = Integer.parseInt(txtId.getText());
+		Empleado empleado = null;
+		
+		try {
+			Optional<Empleado> emp = EmpleadosDAO.buscarPorId(id);
+			  if (emp.isPresent()) {
+	                empleado = emp.get();
+	            } else {
+	            	JOptionPane.showMessageDialog(this, "No se encontró empleado con el id","Advertencia",JOptionPane.WARNING_MESSAGE);
+	            	return;
+	            }
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(this, "Error al leer el empleado. " + e,"Advertencia",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		txtNombre.setText(empleado.getNombre());
+		txtSalario.setText(String.valueOf(empleado.getSalario()));
+		txtFecha.setText(empleado.getFecha_ingreso().toString());
+		jcbDepartamento.getEditor().setItem(empleado.getDepartamento());
+		if (empleado.isActivo()) jrbSi.setSelected(true);
+		else jrbNo.setSelected(true);
+	}
+	
+	public void Borrar() {
+		
+		Leer();
+		
+		if (  JOptionPane.showConfirmDialog (this, "¿Esta seguró que quiere borrar el empleado?","Advertencia",JOptionPane.YES_NO_OPTION) == JOptionPane.	NO_OPTION) {
+			return;
+		}
+		
+		int id = Integer.parseInt(txtId.getText());
+		
+		try {
+            boolean eliminado = EmpleadosDAO.eliminarEmpleado(id);
+            if (eliminado) {
+            	JOptionPane.showMessageDialog(this, "Empleado eliminado.","Exito",JOptionPane.INFORMATION_MESSAGE);
+            } else {
+            	JOptionPane.showMessageDialog(this, "No se encontró empleado con el id","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException e) {
+        	JOptionPane.showMessageDialog(this, "Error al eliminar el empleado. " + e,"Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+		
+		txtId.setText("");
+		txtNombre.setText("");
+		txtSalario.setText("");
+		txtFecha.setText("");
+		jcbDepartamento.getEditor().setItem("");
+		btGrupo.clearSelection();
 	}
 
 	public Empleado obtenerEmpleado() {

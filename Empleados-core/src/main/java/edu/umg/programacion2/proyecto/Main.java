@@ -193,7 +193,7 @@ public class Main {
         System.out.print("Carnet del Empleado a eliminar: ");
         int id = leerOpcion();
 
-        try {
+       try {
             boolean eliminado = EmpleadosDAO.eliminarEmpleado(id);
             if (eliminado) {
                 System.out.println("Empleado eliminado.");
