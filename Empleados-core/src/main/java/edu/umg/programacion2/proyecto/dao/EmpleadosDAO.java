@@ -128,7 +128,7 @@ public class EmpleadosDAO {
     }
 
     public static List<String> obtenerDepartamentos() throws SQLException {
-    	String sql = "SELECT DISTINTC departamento FROM empleados";	
+    	String sql = "SELECT DISTINCT departamento FROM empleados";	
     	List<String> depas = new ArrayList<>();
     	
     	try(Connection conexion = DriverManager.getConnection(URL,USUARIO,PASSWORD);
