@@ -32,6 +32,8 @@ public class Sidebar extends JPanel{
 		titulo.setAlignmentX(CENTER_ALIGNMENT);
 		add(titulo);
 		
+		Estilos.TituloLateral(titulo);
+		
 		add(Box.createVerticalStrut(20));
 		
 		JButton bttPrincipal = new JButton("Principal");

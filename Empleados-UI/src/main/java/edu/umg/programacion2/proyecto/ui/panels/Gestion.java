@@ -1,8 +1,11 @@
 package edu.umg.programacion2.proyecto.ui.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,8 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,7 +46,9 @@ public class Gestion extends JPanel{
 
 	public Gestion() {
 		setLayout(new BorderLayout());
+		setBackground(Estilos.FONDO);
 		initComponents();
+		decorateComponents();
 		
 	}
 	
@@ -88,6 +91,57 @@ public class Gestion extends JPanel{
 		bttUpdate = new JButton("Editar Empleado");
 		bttRead = new JButton("Buscar");
 		bttDelete = new JButton("Eliminar");
+				
+		// El titulo ira fuera de las demas cuadriculas para no estorbar mucho
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		add(lblTitulo, BorderLayout.NORTH);
+		
+		//Se crea la cuadriculoa para que se haga más facil el colocar los elementos interactuables
+		
+		JPanel panelCampos = new JPanel(new GridBagLayout());
+		panelCampos.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40)); // margen exterior
+		panelCampos.setBackground(Estilos.FONDO);
+
+		// Helpers
+		JLabel[] etiquetas = {lblId, lblNombre, lblDepartamento, lblSalario, lblFecha, lblActivo};
+		Component[] campos = {txtId, txtNombre, jcbDepartamento, txtSalario, txtFecha, null};
+
+		for (int i = 0; i < etiquetas.length; i++) {
+		    panelCampos.add(etiquetas[i], gbc(0, i, 1, 0.0, GridBagConstraints.NONE));
+		    if (campos[i] != null) {
+		        panelCampos.add(campos[i], gbc(1, i, 2, 1.0, GridBagConstraints.HORIZONTAL));
+		    }
+		}
+
+		// Fila especial de los radio buttons
+		JPanel panelActivo = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+		panelActivo.setOpaque(false);
+		panelActivo.add(jrbSi);
+		panelActivo.add(jrbNo);
+		panelCampos.add(panelActivo, gbc(1, 5, 2, 1.0, GridBagConstraints.HORIZONTAL));
+		
+		add(panelCampos,BorderLayout.WEST);
+		
+		//Panel de botones para ordenar la interfaz
+		JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, Estilos.GAP_BOTONES, 15));
+		panelBotones.setBackground(Estilos.FONDO);
+		panelBotones.add(bttCreate);
+		panelBotones.add(bttRead);
+		panelBotones.add(bttUpdate);
+		panelBotones.add(bttDelete);
+		
+		// Aquí están las funciones para cada boton
+		bttCreate.addActionListener(e -> { Guardar();});
+		bttRead.addActionListener(e -> {Leer();});
+		bttUpdate.addActionListener(e -> {Editar();});
+		bttDelete.addActionListener(e -> {Borrar();});
+		
+		add(panelBotones,BorderLayout.SOUTH);
+	}
+	
+	public void decorateComponents() {
+		Estilos.Titulo(lblTitulo);
 		
 		// Aqui iran los estilos de todos los elementos pero para que no se haga muy pesada esta clase se usara una clase externa para decorarlos
 		
@@ -97,83 +151,13 @@ public class Gestion extends JPanel{
 		Estilos.CamposGestion(txtSalario);
 		Estilos.CamposGestion(jcbDepartamento);
 		
+		Estilos.BotonGestion(bttCreate);
+		Estilos.BotonGestion(bttRead);
+		Estilos.BotonGestion(bttUpdate);
+		Estilos.botonPeligro(bttDelete);
 		
-		// El titulo ira fuera de las demas cuadriculas para no estorbar mucho
-		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		add(lblTitulo, BorderLayout.NORTH);
-		
-		//Se crea la cuadriculoa para que se haga más facil el colocar los elementos interactuables
-		
-		JPanel panelCampos = new JPanel(new GridBagLayout()); 
-		GridBagConstraints gbc = new GridBagConstraints();
-		
-		gbc.gridx = 0;gbc.gridy = 0;gbc.gridwidth = 1;
-		panelCampos.add(lblId,gbc);
-		
-		gbc.gridx = 1;gbc.gridy = 0;gbc.gridwidth = 2;
-		panelCampos.add(txtId,gbc);
-		
-		gbc.gridx = 0;gbc.gridy = 1;gbc.gridwidth = 1;
-		panelCampos.add(lblNombre,gbc);
-		
-		gbc.gridx = 1;gbc.gridy = 1;gbc.gridwidth = 2;
-		panelCampos.add(txtNombre,gbc);
-		
-		gbc.gridx = 0;gbc.gridy = 2;gbc.gridwidth = 1;
-		panelCampos.add(lblDepartamento,gbc);
-		
-		gbc.gridx = 1;gbc.gridy = 2;gbc.gridwidth = 2;
-		panelCampos.add(jcbDepartamento,gbc);
-		
-		gbc.gridx = 0;gbc.gridy = 3;gbc.gridwidth = 1;
-		panelCampos.add(lblSalario,gbc);
-		
-		gbc.gridx = 1;gbc.gridy = 3;gbc.gridwidth = 2;
-		panelCampos.add(txtSalario,gbc);
-		
-		gbc.gridx = 0;gbc.gridy = 4;gbc.gridwidth = 1;
-		panelCampos.add(lblFecha,gbc);
-		
-		gbc.gridx = 1;gbc.gridy = 4;gbc.gridwidth = 2;
-		panelCampos.add(txtFecha,gbc);
-		
-		gbc.gridx = 0;gbc.gridy = 5;gbc.gridwidth = 1;
-		panelCampos.add(lblActivo,gbc);
-		
-		gbc.gridx = 1;gbc.gridy = 5;gbc.gridwidth = 1;
-		panelCampos.add(jrbSi,gbc);
-		
-		gbc.gridx = 2;gbc.gridy = 5;gbc.gridwidth = 1;
-		panelCampos.add(jrbNo,gbc);
-		
-		add(panelCampos,BorderLayout.CENTER);
-		
-		
-		//Panel de botones para ordenar la interfaz
-		JPanel panelBotones = new JPanel();
-
-		panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.X_AXIS));
-		
-		panelBotones.add(Box.createHorizontalStrut(10));
-		panelBotones.add(bttCreate);
-		panelBotones.add(Box.createHorizontalStrut(10));
-		panelBotones.add(bttRead);
-		panelBotones.add(Box.createHorizontalStrut(10));
-		panelBotones.add(bttUpdate);
-		panelBotones.add(Box.createHorizontalStrut(10));
-		panelBotones.add(bttDelete);
-		panelBotones.add(Box.createHorizontalStrut(10));
-		
-		panelBotones.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		
-		// Aquí están las funciones para cada boton
-		bttCreate.addActionListener(e -> { Guardar();});
-		bttRead.addActionListener(e -> {Leer();});
-		bttUpdate.addActionListener(e -> {Editar();});
-		bttDelete.addActionListener(e -> {Borrar();});
-		
-		add(panelBotones,BorderLayout.SOUTH);
+		Estilos.radio(jrbNo);
+		Estilos.radio(jrbSi);
 	}
 	
 	// *Bloque de funciones para comunicarse con el dao*
@@ -361,5 +345,18 @@ public class Gestion extends JPanel{
             return false; // La fecha es inválida o no coincide con el formato
         }
     }
+
+	
+	private GridBagConstraints gbc(int x, int y, int w, double wx, int fill) {
+	    GridBagConstraints g = new GridBagConstraints();
+	    g.gridx = x;
+	    g.gridy = y;
+	    g.gridwidth = w;
+	    g.weightx = wx;
+	    g.fill = fill;
+	    g.insets = new Insets(5, 8, 5, 8); // ¡Espaciado entre filas!
+	    g.anchor = GridBagConstraints.WEST;
+	    return g;
+	}
 
 }

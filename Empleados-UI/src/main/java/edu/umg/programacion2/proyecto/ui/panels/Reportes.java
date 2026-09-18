@@ -3,6 +3,7 @@ package edu.umg.programacion2.proyecto.ui.panels;
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -10,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import edu.umg.programacion2.proyecto.dao.EmpleadosDAO;
+import edu.umg.programacion2.proyecto.ui.decorador.Estilos;
 
 public class Reportes extends JPanel{
 
@@ -21,6 +23,7 @@ public class Reportes extends JPanel{
 	
 	public Reportes() {
 		setLayout(new BorderLayout());
+		setBackground(Estilos.FONDO);
 		
 		initComponents();
 	}
@@ -38,7 +41,11 @@ public class Reportes extends JPanel{
 		tabla = new JTable(modelo);
 		scroll = new JScrollPane(tabla);
 		
-		add(scroll, BorderLayout.SOUTH);
+		Estilos.tabla(tabla);
+		Estilos.Titulo(titulo);
+		
+		add(scroll, BorderLayout.CENTER);
+		setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 	}
 
 }

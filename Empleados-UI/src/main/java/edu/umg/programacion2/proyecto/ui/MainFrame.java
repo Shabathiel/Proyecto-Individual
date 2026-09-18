@@ -25,7 +25,7 @@ public class MainFrame extends JFrame{
 	
 	public MainFrame() {
 		
-		setSize(1000,600);
+		setSize(900,600);
 		setTitle("Gestión de Empleados");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
