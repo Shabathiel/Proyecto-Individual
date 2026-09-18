@@ -44,7 +44,7 @@ public class EmpleadosDAO {
         return propiedades;
     }
     
-    public int crearEmpleado(Empleado empleado) throws SQLException {
+    public static int crearEmpleado(Empleado empleado) throws SQLException {
         String sql = "INSERT INTO empleados (nombre, departamento, salario, fecha_ingreso) VALUES (?, ?, ?, ?)";
 
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
@@ -65,7 +65,7 @@ public class EmpleadosDAO {
         }
     }
 
-    public List<Empleado> listarTodos() throws SQLException {
+    public static List<Empleado> listarTodos() throws SQLException {
         String sql = "SELECT id, nombre, departamento, salario, fecha_ingreso, activo FROM empleados ORDER BY id";
         List<Empleado> empleados = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class EmpleadosDAO {
         return empleados;
     }
 
-    public Optional<Empleado> buscarPorId(int id) throws SQLException {
+    public static Optional<Empleado> buscarPorId(int id) throws SQLException {
         String sql = "SELECT id, nombre, departamento, salario, fecha_ingreso, activo FROM empleados WHERE id = ?";
 
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
@@ -97,7 +97,7 @@ public class EmpleadosDAO {
         }
     }
 
-    public boolean actualizarEmpleado(Empleado emp) throws SQLException {
+    public static boolean actualizarEmpleado(Empleado emp) throws SQLException {
         String sql = "UPDATE empleados SET nombre = ?, departamento = ?, salario = ?, activo = ? WHERE id = ?";
 
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
@@ -114,7 +114,7 @@ public class EmpleadosDAO {
         }
     }
     
-    public boolean eliminarEmpleado(int id) throws SQLException {
+    public static boolean eliminarEmpleado(int id) throws SQLException {
     	String sql = "DELETE FROM empleados WHERE id = ?";
     	
     	try(Connection conexion = DriverManager.getConnection(URL,USUARIO,PASSWORD);
@@ -127,6 +127,22 @@ public class EmpleadosDAO {
     	}
     }
 
+    public static List<String> obtenerDepartamentos() throws SQLException {
+    	String sql = "SELECT DISTINTC departamento FROM empleados";	
+    	List<String> depas = new ArrayList<>();
+    	
+    	try(Connection conexion = DriverManager.getConnection(URL,USUARIO,PASSWORD);
+    		PreparedStatement statement = conexion.prepareStatement(sql);
+    		ResultSet resultado = statement.executeQuery()){
+    		
+    		
+    		while (resultado.next()) {
+    			depas.add(resultado.getString("departamento"));
+    		}
+    		return depas;
+    	}
+    }
+    
     private static Empleado mapearFila(ResultSet resultado) throws SQLException {
         int id = resultado.getInt("id");
         String nombre = resultado.getString("nombre");

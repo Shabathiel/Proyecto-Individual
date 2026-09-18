@@ -11,7 +11,6 @@ import edu.umg.programacion2.proyecto.model.Empleado;
 
 public class Main {
 	private static final Scanner teclado = new Scanner(System.in);
-    private static final EmpleadosDAO empleadosDAO = new EmpleadosDAO();
 
     public static void main(String[] args) {
         int opcion;
@@ -99,7 +98,7 @@ public class Main {
         }
         
         try {
-            int id = empleadosDAO.crearEmpleado(new Empleado(nombre, departamento, salario,LocalDate.now()));
+            int id = EmpleadosDAO.crearEmpleado(new Empleado(nombre, departamento, salario,LocalDate.now()));
             System.out.println("Empleado creado con id " + id);
         } catch (SQLException e) {
             System.err.println("Error al crear el Empleado: " + e.getMessage());
@@ -108,7 +107,7 @@ public class Main {
 
     private static void listarEmpleados() {
         try {
-            List<Empleado> Empleados = empleadosDAO.listarTodos();
+            List<Empleado> Empleados = EmpleadosDAO.listarTodos();
             if (Empleados.isEmpty()) {
                 System.out.println("No hay Empleados registrados todavia.");
                 return;
@@ -126,7 +125,7 @@ public class Main {
         int id = leerOpcion();
 
         try {
-            Optional<Empleado> Empleado = empleadosDAO.buscarPorId(id);
+            Optional<Empleado> Empleado = EmpleadosDAO.buscarPorId(id);
             if (Empleado.isPresent()) {
                 System.out.println("Encontrado: " + Empleado.get());
             } else {
@@ -143,7 +142,7 @@ public class Main {
     	Empleado emp = null;
 
     	try {
-    		Optional<Empleado> empleadoActual = empleadosDAO.buscarPorId(id);
+    		Optional<Empleado> empleadoActual = EmpleadosDAO.buscarPorId(id);
     		if (empleadoActual.isPresent()) {
     			emp = empleadoActual.get();
     		} else {
@@ -178,7 +177,7 @@ public class Main {
 		emp.setActivo(activo);
 
 		try {
-			boolean actualizado = empleadosDAO.actualizarEmpleado(emp);
+			boolean actualizado = EmpleadosDAO.actualizarEmpleado(emp);
 			if (actualizado) {
 				System.out.println("Empleado actualizado.");
 			} else {
@@ -195,7 +194,7 @@ public class Main {
         int id = leerOpcion();
 
         try {
-            boolean eliminado = empleadosDAO.eliminarEmpleado(id);
+            boolean eliminado = EmpleadosDAO.eliminarEmpleado(id);
             if (eliminado) {
                 System.out.println("Empleado eliminado.");
             } else {
