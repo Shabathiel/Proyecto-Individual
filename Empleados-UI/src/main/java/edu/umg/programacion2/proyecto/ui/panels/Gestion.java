@@ -108,7 +108,7 @@ public class Gestion extends JPanel{
 		Component[] campos = {txtId, txtNombre, jcbDepartamento, txtSalario, txtFecha, null};
 
 		for (int i = 0; i < etiquetas.length; i++) {
-		    panelCampos.add(etiquetas[i], gbc(0, i, 1, 0.0, GridBagConstraints.NONE));
+		    panelCampos.add(etiquetas[i], gbc(0, i, 1, 1.0, GridBagConstraints.HORIZONTAL));
 		    if (campos[i] != null) {
 		        panelCampos.add(campos[i], gbc(1, i, 2, 1.0, GridBagConstraints.HORIZONTAL));
 		    }
@@ -161,6 +161,7 @@ public class Gestion extends JPanel{
 		Estilos.etiqueta(lblId);
 		Estilos.etiqueta(lblSalario);
 		Estilos.etiqueta(lblFecha);
+		Estilos.etiqueta(lblActivo);
 		
 		Estilos.radio(jrbNo);
 		Estilos.radio(jrbSi);
@@ -207,10 +208,10 @@ public class Gestion extends JPanel{
 		
 	}
 	
-	public void Leer() {
+	public boolean Leer() {
 		if ( txtId.getText().isBlank() || ! txtId.getText().matches("-?\\d+(\\.\\d+)?")) {
 			JOptionPane.showMessageDialog(this, "Necesita llenar el campo ID con un valor numérico valido.","Advertencia",JOptionPane.WARNING_MESSAGE);
-			return;
+			return false;
 		}
 		
 		int id = Integer.parseInt(txtId.getText());
@@ -222,11 +223,11 @@ public class Gestion extends JPanel{
 	                empleado = emp.get();
 	            } else {
 	            	JOptionPane.showMessageDialog(this, "No se encontró empleado con el id","Advertencia",JOptionPane.WARNING_MESSAGE);
-	            	return;
+	            	return true;
 	            }
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(this, "Error al leer el empleado. " + e,"Advertencia",JOptionPane.WARNING_MESSAGE);
-			return;
+			return false;
 		}
 		
 		txtNombre.setText(empleado.getNombre());
@@ -235,6 +236,8 @@ public class Gestion extends JPanel{
 		jcbDepartamento.getEditor().setItem(empleado.getDepartamento());
 		if (empleado.isActivo()) jrbSi.setSelected(true);
 		else jrbNo.setSelected(true);
+		
+		return true;
 	}
 	
 	public void Editar() {
@@ -296,7 +299,7 @@ public class Gestion extends JPanel{
 	
 	public void Borrar() {
 		
-		Leer();
+		if(! Leer()) return;
 		
 		if (  JOptionPane.showConfirmDialog (this, "¿Esta seguró que quiere borrar el empleado?","Advertencia",JOptionPane.YES_NO_OPTION) == JOptionPane.	NO_OPTION) {
 			return;

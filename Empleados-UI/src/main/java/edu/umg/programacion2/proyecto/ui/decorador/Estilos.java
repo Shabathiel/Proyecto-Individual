@@ -100,7 +100,7 @@ public class Estilos {
 	public static void etiqueta(JLabel l) {
         l.setFont(ETIQUETA);
         l.setForeground(TEXTO);
-        l.setPreferredSize(new Dimension(150, 30));
+        l.setPreferredSize(new Dimension(200, 30));
     }
 	
 	public static void tabla(JTable t) {
