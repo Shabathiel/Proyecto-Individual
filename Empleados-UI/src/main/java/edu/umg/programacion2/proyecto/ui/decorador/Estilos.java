@@ -97,6 +97,12 @@ public class Estilos {
 	    r.setPreferredSize(new Dimension(70, 30));
 	}
 	
+	public static void etiqueta(JLabel l) {
+        l.setFont(ETIQUETA);
+        l.setForeground(TEXTO);
+        l.setPreferredSize(new Dimension(150, 30));
+    }
+	
 	public static void tabla(JTable t) {
 	    t.setFont(CAMPO);
 	    t.setRowHeight(28);                     // ← esto es lo que agranda las filas

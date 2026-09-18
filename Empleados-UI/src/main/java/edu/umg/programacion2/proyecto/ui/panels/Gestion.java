@@ -156,6 +156,12 @@ public class Gestion extends JPanel{
 		Estilos.BotonGestion(bttUpdate);
 		Estilos.botonPeligro(bttDelete);
 		
+		Estilos.etiqueta(lblNombre);
+		Estilos.etiqueta(lblDepartamento);
+		Estilos.etiqueta(lblId);
+		Estilos.etiqueta(lblSalario);
+		Estilos.etiqueta(lblFecha);
+		
 		Estilos.radio(jrbNo);
 		Estilos.radio(jrbSi);
 	}
