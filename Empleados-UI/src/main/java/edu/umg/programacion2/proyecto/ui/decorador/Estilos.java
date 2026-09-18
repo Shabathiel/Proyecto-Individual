@@ -25,7 +25,7 @@ public class Estilos {
 		campo.setColumns(30);
 	}
 	
-	public static void CamposGestion(JComboBox campo) {
+	public static void CamposGestion(JComboBox<String> campo) {
 		campo.setPreferredSize(new Dimension(300,40));
 	}
 }
