@@ -1,5 +1,7 @@
 package edu.umg.programacion2.proyecto.ui.panels;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class TablaEmpleados extends AbstractTableModel{
 	private List<Empleado> empleados;
 	
 	private final String[] columns = 
-		{"ID","Nombre","Departamento","Salario","Fecha de Contratación","Telefono", "Activo"};
+		{"ID","Nombre","Departamento","Salario","Fecha de Contratación","Telefono", "Activo", "Antiguedad"};
 	
 	static DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
@@ -63,6 +65,9 @@ public class TablaEmpleados extends AbstractTableModel{
 		        case 6:
 		        	return m.isActivo() ? "Si":"No";
 
+		        case 7:
+		        	return Period.between(m.getFecha_ingreso(), LocalDate.now()).getYears();
+		        	
 		        default:
 		            return null;
 		    }
