@@ -7,3 +7,4 @@
 .metadata/
 
 **/db.properties
+**/*.class
