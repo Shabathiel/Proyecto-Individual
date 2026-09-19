@@ -67,7 +67,7 @@ public class Estilos {
 	
 	public static void CamposGestion(JTextField c) {
 	    c.setFont(CAMPO);
-	    c.setPreferredSize(new Dimension(240, 34)); // ancho y alto
+	    c.setPreferredSize(new Dimension(300, 34)); // ancho y alto
 	    c.setBorder(BorderFactory.createCompoundBorder(
 	        BorderFactory.createLineBorder(new Color(0xBDC3C7)),
 	        BorderFactory.createEmptyBorder(4, 8, 4, 8) // padding interno

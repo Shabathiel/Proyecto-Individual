@@ -54,7 +54,7 @@ public class TablaEmpleados extends AbstractTableModel{
 		            return m.getDepartamento();
 		            
 		        case 3:
-		        	return m.getSalario() / 100;
+		        	return "Q" + m.getSalario() / 100;
 		        	
 		        case 4:
 		        	return m.getFecha_ingreso().format(formateador);
@@ -66,7 +66,7 @@ public class TablaEmpleados extends AbstractTableModel{
 		        	return m.isActivo() ? "Si":"No";
 
 		        case 7:
-		        	return Period.between(m.getFecha_ingreso(), LocalDate.now()).getYears();
+		        	return Period.between(m.getFecha_ingreso(), LocalDate.now()).getYears() + " años";
 		        	
 		        default:
 		            return null;
