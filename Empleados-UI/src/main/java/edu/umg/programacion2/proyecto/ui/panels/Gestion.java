@@ -40,6 +40,9 @@ public class Gestion extends JPanel{
 	JRadioButton jrbSi, jrbNo;
 	ButtonGroup btGrupo;
 	
+	//Nuevos campos
+	JLabel lblTelefono; JTextField txtTelefono;
+	
 	//Este es un atributo porque no compensaba hacer una clase solo para eso
 	//Y no quería estarlo declarando a cada rato, lo voy a usar varías veces
 	static DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -60,12 +63,14 @@ public class Gestion extends JPanel{
 		lblDepartamento = new JLabel("Departamento: ");
 		lblSalario = new JLabel("Salario: ");
 		lblFecha = new JLabel("Fecha de contratación: ");
-		lblActivo = new JLabel("Activo");
+		lblActivo = new JLabel("Activo: ");
+		lblTelefono = new JLabel("Telefono: ");
 		
 		txtNombre = new JTextField();
 		txtId = new JTextField();
 		txtSalario = new JTextField();
 		txtFecha = new JTextField();
+		txtTelefono = new JTextField();
 		
 		btGrupo = new ButtonGroup();
 		jrbSi = new JRadioButton("Si");
@@ -104,8 +109,8 @@ public class Gestion extends JPanel{
 		panelCampos.setBackground(Estilos.FONDO);
 
 		// Helpers
-		JLabel[] etiquetas = {lblId, lblNombre, lblDepartamento, lblSalario, lblFecha, lblActivo};
-		Component[] campos = {txtId, txtNombre, jcbDepartamento, txtSalario, txtFecha, null};
+		JLabel[] etiquetas = {lblId, lblNombre, lblDepartamento, lblSalario, lblFecha, lblTelefono, lblActivo};
+		Component[] campos = {txtId, txtNombre, jcbDepartamento, txtSalario, txtFecha, txtTelefono, null};
 
 		for (int i = 0; i < etiquetas.length; i++) {
 		    panelCampos.add(etiquetas[i], gbc(0, i, 1, 1.0, GridBagConstraints.HORIZONTAL));
@@ -119,7 +124,7 @@ public class Gestion extends JPanel{
 		panelActivo.setOpaque(false);
 		panelActivo.add(jrbSi);
 		panelActivo.add(jrbNo);
-		panelCampos.add(panelActivo, gbc(1, 5, 2, 1.0, GridBagConstraints.HORIZONTAL));
+		panelCampos.add(panelActivo, gbc(1, 6, 2, 1.0, GridBagConstraints.HORIZONTAL));
 		
 		add(panelCampos,BorderLayout.WEST);
 		
@@ -150,6 +155,7 @@ public class Gestion extends JPanel{
 		Estilos.CamposGestion(txtId);
 		Estilos.CamposGestion(txtSalario);
 		Estilos.CamposGestion(jcbDepartamento);
+		Estilos.CamposGestion(txtTelefono);
 		
 		Estilos.BotonGestion(bttCreate);
 		Estilos.BotonGestion(bttRead);
@@ -162,6 +168,7 @@ public class Gestion extends JPanel{
 		Estilos.etiqueta(lblSalario);
 		Estilos.etiqueta(lblFecha);
 		Estilos.etiqueta(lblActivo);
+		Estilos.etiqueta(lblTelefono);
 		
 		Estilos.radio(jrbNo);
 		Estilos.radio(jrbSi);
@@ -172,7 +179,7 @@ public class Gestion extends JPanel{
 	
 	public void Guardar() {
 		//El monton lineas de excepciones y la mayoría no usa las mismas así que no puedo crear un metodo :(
-		if ( txtNombre.getText().isBlank() || txtSalario.getText().isBlank() || txtFecha.getText().isBlank() || jcbDepartamento.getSelectedItem() == null ) {
+		if ( txtNombre.getText().isBlank() || txtSalario.getText().isBlank() || txtFecha.getText().isBlank() || jcbDepartamento.getSelectedItem() == null || txtTelefono.getText().isBlank()) {
 			JOptionPane.showMessageDialog(this, "Necesita llenar los campos para continuar.","Advertencia",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
@@ -194,6 +201,11 @@ public class Gestion extends JPanel{
 		
 		if (Double.parseDouble(txtSalario.getText()) <= 0){
 			JOptionPane.showMessageDialog(this, "El ingresado debe ser un valor numérico mayor que cero","Advertencia",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		if (! txtTelefono.getText().matches("^\\d{4}-\\d{4}$")) {
+			JOptionPane.showMessageDialog(this, "El campo telefono tiene que concordar con el formato ****-****","Advertencia",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
@@ -236,6 +248,7 @@ public class Gestion extends JPanel{
 		jcbDepartamento.getEditor().setItem(empleado.getDepartamento());
 		if (empleado.isActivo()) jrbSi.setSelected(true);
 		else jrbNo.setSelected(true);
+		txtTelefono.setText(empleado.getTelefono());
 		
 		return true;
 	}
@@ -246,8 +259,9 @@ public class Gestion extends JPanel{
 		String stringSalario = txtSalario.getText();
 		Object seleccionDepartamento = jcbDepartamento.getSelectedItem();
 		Empleado empleado = null;
+		String telefono = txtTelefono.getText();
 		
-		boolean camposVacios = nombre.isBlank() && stringSalario.isBlank() && seleccionDepartamento == null  && btGrupo.getSelection() == null; 
+		boolean camposVacios = nombre.isBlank() && stringSalario.isBlank() && seleccionDepartamento == null  && btGrupo.getSelection() == null && telefono.isBlank(); 
 		if ( camposVacios || txtId.getText().isBlank() ) {
 			JOptionPane.showMessageDialog(this, "Necesita llenar los campos para continuar.","Advertencia",JOptionPane.WARNING_MESSAGE);
 			return;
@@ -260,6 +274,11 @@ public class Gestion extends JPanel{
 		
 		if (! stringSalario.matches("-?\\d+(\\.\\d+)?") && ! stringSalario.isBlank()) {
 			JOptionPane.showMessageDialog(this, "El ingresado debe ser un valor numérico mayor que cero 1","Advertencia",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		if (! telefono.matches("^\\d{4}-\\d{4}$") && !telefono.isBlank()) {
+			JOptionPane.showMessageDialog(this, "El campo telefono tiene que concordar con el formato ****-****","Advertencia",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
@@ -282,6 +301,7 @@ public class Gestion extends JPanel{
 		if (! stringSalario.isBlank()) empleado.setSalario((int) (Double.parseDouble(stringSalario) * 100)  );
 		if (seleccionDepartamento != null) empleado.setDepartamento(seleccionDepartamento.toString());
 		if (btGrupo.getSelection() != null) empleado.setActivo(jrbSi.isSelected());
+		if (! telefono.isBlank()) empleado.setTelefono(telefono);
 	
 		try {
 			boolean actualizado = EmpleadosDAO.actualizarEmpleado(empleado);
@@ -343,7 +363,9 @@ public class Gestion extends JPanel{
 		if (jrbSi.isSelected() ) activo = true;
 		else activo = false;
 		
-		return new Empleado(id, nombre, departamento, (int) salario, fecha,activo,"Borar despues");
+		String telefono = txtTelefono.getText();
+		
+		return new Empleado(id, nombre, departamento, (int) salario, fecha,activo,telefono);
 	}
 	
 	public static boolean esFechaValida(String fechaTexto) {

@@ -28,4 +28,4 @@ INSERT IGNORE INTO empleados (nombre, departamento, salario, fecha_ingreso, acti
 ('Claudia Gutiérrez', 'Recursos Humanos', 275000, '2024-01-10', FALSE);
 
 ALTER TABLE empleados
-ADD telefono VARCHAR(20) DEFAULT "+0000-0000";
+ADD telefono VARCHAR(20) DEFAULT "0000-0000";

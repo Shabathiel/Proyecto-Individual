@@ -13,7 +13,7 @@ public class TablaEmpleados extends AbstractTableModel{
 	private List<Empleado> empleados;
 	
 	private final String[] columns = 
-		{"ID","Nombre","Departamento","Salario","Fecha de Contratación", "Activo"};
+		{"ID","Nombre","Departamento","Salario","Fecha de Contratación","Telefono", "Activo"};
 	
 	static DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
@@ -58,6 +58,9 @@ public class TablaEmpleados extends AbstractTableModel{
 		        	return m.getFecha_ingreso().format(formateador);
 		        	
 		        case 5:
+		        	return m.getTelefono();
+		        	
+		        case 6:
 		        	return m.isActivo() ? "Si":"No";
 
 		        default:
