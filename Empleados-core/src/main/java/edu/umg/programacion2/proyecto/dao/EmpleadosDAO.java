@@ -45,7 +45,7 @@ public class EmpleadosDAO {
     }
     
     public static int crearEmpleado(Empleado empleado) throws SQLException {
-        String sql = "INSERT INTO empleados (nombre, departamento, salario, fecha_ingreso) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO empleados (nombre, departamento, salario, fecha_ingreso, telefono) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
              PreparedStatement statement = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -54,6 +54,7 @@ public class EmpleadosDAO {
             statement.setString(2, empleado.getDepartamento());
             statement.setInt(3, empleado.getSalario());
             statement.setDate(4, Date.valueOf(empleado.getFecha_ingreso()));
+            statement.setString(5,empleado.getTelefono());
             statement.executeUpdate();
 
             try (ResultSet claves = statement.getGeneratedKeys()) {
@@ -66,7 +67,7 @@ public class EmpleadosDAO {
     }
 
     public static List<Empleado> listarTodos() throws SQLException {
-        String sql = "SELECT id, nombre, departamento, salario, fecha_ingreso, activo FROM empleados ORDER BY id";
+        String sql = "SELECT id, nombre, departamento, salario, fecha_ingreso, telefono, activo FROM empleados ORDER BY id";
         List<Empleado> empleados = new ArrayList<>();
 
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
@@ -81,7 +82,7 @@ public class EmpleadosDAO {
     }
 
     public static Optional<Empleado> buscarPorId(int id) throws SQLException {
-        String sql = "SELECT id, nombre, departamento, salario, fecha_ingreso, activo FROM empleados WHERE id = ?";
+        String sql = "SELECT id, nombre, departamento, salario, fecha_ingreso, telefono , activo FROM empleados WHERE id = ?";
 
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
              PreparedStatement statement = conexion.prepareStatement(sql)) {
@@ -98,7 +99,7 @@ public class EmpleadosDAO {
     }
 
     public static boolean actualizarEmpleado(Empleado emp) throws SQLException {
-        String sql = "UPDATE empleados SET nombre = ?, departamento = ?, salario = ?, activo = ? WHERE id = ?";
+        String sql = "UPDATE empleados SET nombre = ?, departamento = ?, salario = ?, activo = ?, telefono = ? WHERE id = ?";
 
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
              PreparedStatement statement = conexion.prepareStatement(sql)) {
@@ -107,7 +108,8 @@ public class EmpleadosDAO {
             statement.setString(2, emp.getDepartamento());
             statement.setInt(3, emp.getSalario());
             statement.setBoolean(4, emp.isActivo());
-            statement.setInt(5,emp.getId());
+            statement.setInt(6,emp.getId());
+            statement.setString(5, emp.getTelefono());
 
             int filasAfectadas = statement.executeUpdate();
             return filasAfectadas > 0;
@@ -150,6 +152,7 @@ public class EmpleadosDAO {
         int salario  = resultado.getInt("salario");
         LocalDate fecha_ingreso = resultado.getDate("fecha_ingreso").toLocalDate();
         boolean activo = resultado.getBoolean("activo");
-        return new Empleado(id, nombre, departamento, salario, fecha_ingreso, activo);
+        String telefono = resultado.getString("telefono");
+        return new Empleado(id, nombre, departamento, salario, fecha_ingreso, activo, telefono);
     }
 }

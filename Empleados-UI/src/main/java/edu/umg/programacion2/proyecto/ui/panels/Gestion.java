@@ -343,7 +343,7 @@ public class Gestion extends JPanel{
 		if (jrbSi.isSelected() ) activo = true;
 		else activo = false;
 		
-		return new Empleado(id, nombre, departamento, (int) salario, fecha,activo);
+		return new Empleado(id, nombre, departamento, (int) salario, fecha,activo,"Borar despues");
 	}
 	
 	public static boolean esFechaValida(String fechaTexto) {

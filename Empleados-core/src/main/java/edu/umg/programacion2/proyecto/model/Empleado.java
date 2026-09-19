@@ -9,10 +9,10 @@ public class Empleado {
 	private int salario; // El salario se encuentra en centavos con conversión en cada metodo
 	private LocalDate fecha_ingreso;
 	private boolean activo;
+	private String telefono;
 	
 	
-	
-	public Empleado(int id, String nombre, String departamento, int salario, LocalDate fecha_ingreso, boolean activo) {
+	public Empleado(int id, String nombre, String departamento, int salario, LocalDate fecha_ingreso, boolean activo, String telefono) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -20,16 +20,18 @@ public class Empleado {
 		this.salario = salario;
 		this.fecha_ingreso = fecha_ingreso;
 		this.activo = activo;
+		this.telefono = telefono;
 	}
 	
 	
 
-	public Empleado(String nombre, String departamento, int salario, LocalDate fecha_ingreso) {
+	public Empleado(String nombre, String departamento, int salario, LocalDate fecha_ingreso, String telefono) {
 		this.id = 0;
 		this.nombre = nombre;
 		this.departamento = departamento;
 		this.salario = salario;
 		this.fecha_ingreso = fecha_ingreso;
+		this.telefono = telefono;
 		this.activo = true;
 	}
 
@@ -104,6 +106,17 @@ public class Empleado {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
+	
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 
 
 
@@ -111,7 +124,7 @@ public class Empleado {
 	public String toString() {
 		return "|" + id + "| " + nombre + " - " + departamento 
 				+ " - Q" + salario/100 + " - " + fecha_ingreso 
-				+ " - " + ((activo) ? "Activo":"Inactivo");
+				+ " - " + telefono + " - " + ((activo) ? "Activo":"Inactivo");
 	}
 	
 	

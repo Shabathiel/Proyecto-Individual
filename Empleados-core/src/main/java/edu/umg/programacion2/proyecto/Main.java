@@ -85,9 +85,11 @@ public class Main {
         String departamento = teclado.nextLine();
         System.out.print("Salario: Q");
         int salario = (int) (leerDouble() * 100);
+        System.out.print("Telefono (****-****): ");
+        String telefono = teclado.nextLine();
         
         //Comprobaciones en caso de que este vacio o que salario sea negativo
-        if (nombre.isEmpty() || departamento.isEmpty()) {
+        if (nombre.isEmpty() || departamento.isEmpty() || telefono.isEmpty()) {
         	System.out.println("Los campos tienen que estar completos");
         	return;
         };
@@ -98,7 +100,7 @@ public class Main {
         }
         
         try {
-            int id = EmpleadosDAO.crearEmpleado(new Empleado(nombre, departamento, salario,LocalDate.now()));
+            int id = EmpleadosDAO.crearEmpleado(new Empleado(nombre, departamento, salario,LocalDate.now(),telefono));
             System.out.println("Empleado creado con id " + id);
         } catch (SQLException e) {
             System.err.println("Error al crear el Empleado: " + e.getMessage());
@@ -129,7 +131,7 @@ public class Main {
             if (Empleado.isPresent()) {
                 System.out.println("Encontrado: " + Empleado.get());
             } else {
-                System.out.println("No existe ningun Empleado con ese carnet.");
+                System.out.println("No existe ningun Empleado con ese id.");
             }
         } catch (SQLException e) {
             System.err.println("Error al buscar el Empleado: " + e.getMessage());
@@ -162,12 +164,16 @@ public class Main {
 		String departamento = teclado.nextLine();
 		
 		System.out.println("Salario actual: " + emp.getSalario()/100);
-		System.out.print("Nuevo Salario (en blanco si no desea cambiar): Q" );
+		System.out.print("Nuevo Salario (0 si no desea cambiar): Q" );
 		int salario = (int) (leerDouble() * 100);
 		
 		System.out.println("El empleado se encuentra " + ((emp.isActivo()) ? "Activo" : "inactivo"));
 		System.out.print("¿El empleado se encuentra activo ahora? (Y si/* no): ");
 		boolean activo = (teclado.nextLine().toUpperCase().equals("Y")) ? true:false;
+		
+		System.out.println("Telefono actual: " + emp.getTelefono());
+		System.out.print("Nuevo telefono a ingresar (en blanco si no dese replazar): ");
+		String telefono = teclado.nextLine();
 		
 		// Validaciones
 		emp.setId(id);
@@ -175,6 +181,7 @@ public class Main {
 		if (!departamento.isBlank()) emp.setNombre(nombre);
 		if (salario > 0) emp.setSalario(salario);
 		emp.setActivo(activo);
+		if (! telefono.isBlank()) emp.setTelefono(telefono);
 
 		try {
 			boolean actualizado = EmpleadosDAO.actualizarEmpleado(emp);
@@ -190,7 +197,7 @@ public class Main {
     }
 
     private static void eliminarEmpleado() {
-        System.out.print("Carnet del Empleado a eliminar: ");
+        System.out.print("ID del Empleado a eliminar: ");
         int id = leerOpcion();
 
        try {
