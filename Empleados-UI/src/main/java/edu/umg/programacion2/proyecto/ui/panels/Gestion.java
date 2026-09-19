@@ -195,12 +195,12 @@ public class Gestion extends JPanel{
 		}
 		
 		if (! txtSalario.getText().matches("-?\\d+(\\.\\d+)?")) {
-			JOptionPane.showMessageDialog(this, "El ingresado debe ser un valor numérico mayor que cero","Advertencia",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "El salario ingresado debe ser un valor numérico mayor que cero","Advertencia",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
 		if (Double.parseDouble(txtSalario.getText()) <= 0){
-			JOptionPane.showMessageDialog(this, "El ingresado debe ser un valor numérico mayor que cero","Advertencia",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "El salario ingresado debe ser un valor numérico mayor que cero","Advertencia",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
@@ -272,8 +272,8 @@ public class Gestion extends JPanel{
 			return;
 		}
 		
-		if (! stringSalario.matches("-?\\d+(\\.\\d+)?") && ! stringSalario.isBlank()) {
-			JOptionPane.showMessageDialog(this, "El ingresado debe ser un valor numérico mayor que cero 1","Advertencia",JOptionPane.WARNING_MESSAGE);
+		if (! stringSalario.matches("\\d+(\\.\\d+)?") && ! stringSalario.isBlank()) {
+			JOptionPane.showMessageDialog(this, "El salario ingresado debe ser un valor numérico mayor que cero","Advertencia",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
