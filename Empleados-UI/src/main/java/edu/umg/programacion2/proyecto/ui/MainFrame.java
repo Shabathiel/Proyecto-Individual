@@ -37,10 +37,6 @@ public class MainFrame extends JFrame{
 		setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-		new MainFrame();
-	}
-	
 	public void initComponents() {
 		Sidebar sidebar = new Sidebar(this);
 		this.add(sidebar, BorderLayout.WEST);
